@@ -13,7 +13,7 @@ add_definitions(
 
 ### GLFW ###
 
-add_subdirectory (glfw-3.1.2)
+add_subdirectory (glfw-3.1)
 add_subdirectory(glm)
 
 include_directories(
