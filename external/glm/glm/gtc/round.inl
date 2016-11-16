@@ -104,7 +104,10 @@ namespace detail
 		GLM_FUNC_QUALIFIER static genType call(genType Source, genType Multiple)
 		{
 			if(Source > genType(0))
-				return Source + (Multiple - std::fmod(Source, Multiple));
+			{
+				genType Tmp = Source - genType(1);
+				return Tmp + (Multiple - std::fmod(Tmp, Multiple));
+			}
 			else
 				return Source + std::fmod(-Source, Multiple);
 		}
@@ -149,7 +152,10 @@ namespace detail
 			if(Source >= genType(0))
 				return Source - std::fmod(Source, Multiple);
 			else
-				return Source - std::fmod(Source, Multiple) - Multiple;
+			{
+				genType Tmp = Source + genType(1);
+				return Tmp - std::fmod(Tmp, Multiple) - Multiple;
+			}
 		}
 	};
 

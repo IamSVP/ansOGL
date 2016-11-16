@@ -253,9 +253,6 @@ namespace glm
 	// -- Unary operators --
 
 	template <typename T, precision P>
-	GLM_FUNC_DECL tvec3<T, P> operator+(tvec3<T, P> const & v);
-
-	template <typename T, precision P>
 	GLM_FUNC_DECL tvec3<T, P> operator-(tvec3<T, P> const & v);
 
 	// -- Binary operators --

@@ -3,52 +3,51 @@ project(ansOGL)
 
 find_package(OpenGL REQUIRED)
 
-if( CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR )
-    message( FATAL_ERROR "Please select another Build Directory ! (and give it a clever name, like bin_Visual2012_64bits/)" )
-endif()
-if( CMAKE_SOURCE_DIR MATCHES " " )
-	message( "Your Source Directory contains spaces. If you experience problems when compiling, this can be the cause." )
-endif()
-if( CMAKE_BINARY_DIR MATCHES " " )
-	message( "Your Build Directory contains spaces. If you experience problems when compiling, this can be the cause." )
-endif()
-
-add_subdirectory(external)
 
 
-# On Visual 2005 and above, this module can set the debug working directory
-######## Didn't understand ####
-cmake_policy(SET CMP0026 OLD)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/rpavlik-cmake-modules-fe2273")
-include(CreateLaunchers)
-include(MSVCMultipleProcessCompile) # /MP
 
-if(INCLUDE_DISTRIB)
-	add_subdirectory(distrib)
-endif(INCLUDE_DISTRIB)
+SET(ansOGL_MAJOR_VERSION 0)
+SET(ansOGL_MINOR_VERSION 0)
+SET(ansOGL_PATCH_VERSION 0)
+SET(ansOGL_VERSION ${OculusRenderer_MAJOR_VERSION}.${OculusRenderer_MINOR_VERSION}.${OculusRenderer_PATCH_VERSION})
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-##didn't understand til here
+OPTION(TREAT_WARNINGS_AS_ERRORS "Treat compiler warnings as errors. We use the highest warnings levels for compilers." OFF)
 
-include_directories(
-	external/glm/
-	external/glfw-3.1.2/include/GLFW/
-	external/glew-1.13.0/include/
-	)
-
-set(ALL_LIBS
-	${OPENGL_LIBRARY}
-	glfw
-	GLEW_1130
-	)
 add_definitions(
 	-DTW_STATIC
 	-DTW_NO_LIB_PRAGMA
-	-DTW_NO_DIRECT3D
 	-DGLEW_STATIC
 	-D_CRT_SECURE_NO_WARNINGS
-	)
+)
+SET(CMAKE_COLOR_MAKEFILE ON)
+IF(MSVC)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+
+ELSEIF(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -fms-extensions")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fms-extensions")
+
+ENDIF(MSVC)
+
+IF(TREAT_WARNINGS_AS_ERRORS)
+  IF(MSVC)
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /WX")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+  ELSEIF(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+  ENDIF(MSVC)
+ENDIF(TREAT_WARNINGS_AS_ERRORS)
+
+SET(CMAKE_CXX_STANDARD 11)
 
 
+add_subdirectory(external)
+add_subdirectory(googletest)
 add_subdirectory(ans_ogl)
+add_subdirectory(ogl)
 
 

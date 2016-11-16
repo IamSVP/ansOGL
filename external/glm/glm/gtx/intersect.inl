@@ -7,6 +7,10 @@
 // File    : glm/gtx/intersect.inl
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include "../geometric.hpp"
+#include <cfloat>
+#include <limits>
+
 namespace glm
 {
 	template <typename genType>

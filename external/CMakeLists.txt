@@ -14,10 +14,9 @@ add_definitions(
 ### GLFW ###
 
 add_subdirectory (glfw-3.1)
-add_subdirectory(glm)
 
 include_directories(
-	glfw-3.1.2/include/GLFW/
+	glfw-3.1/include/GLFW/
 	glew-1.13.0/include/
 )
 
@@ -34,7 +33,7 @@ set(OPENGL_LIBRARY
 	${CMAKE_DL_LIBS}
 	${GLFW_LIBRARIES}
 )
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 ### GLEW ###
 
@@ -55,3 +54,5 @@ target_link_libraries(GLEW_1130
 	${OPENGL_LIBRARY}
 	${EXTRA_LIBS}
 )
+
+

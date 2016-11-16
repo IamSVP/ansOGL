@@ -451,23 +451,24 @@ namespace detail
 
 	GLM_FUNC_QUALIFIER uint32 packUnorm3x10_1x2(vec4 const & v)
 	{
-		uvec4 const Unpack(round(clamp(v, 0.0f, 1.0f) * vec4(1023.f, 1023.f, 1023.f, 3.f)));
-
-		detail::u10u10u10u2 Result;
-		Result.data.x = Unpack.x;
-		Result.data.y = Unpack.y;
-		Result.data.z = Unpack.z;
-		Result.data.w = Unpack.w;
+		detail::i10i10i10i2 Result;
+		Result.data.x = int(round(clamp(v.x, 0.0f, 1.0f) * 1023.f));
+		Result.data.y = int(round(clamp(v.y, 0.0f, 1.0f) * 1023.f));
+		Result.data.z = int(round(clamp(v.z, 0.0f, 1.0f) * 1023.f));
+		Result.data.w = int(round(clamp(v.w, 0.0f, 1.0f) *    3.f));
 		return Result.pack;
 	}
 
 	GLM_FUNC_QUALIFIER vec4 unpackUnorm3x10_1x2(uint32 v)
 	{
-		vec4 const ScaleFactors(1.0f / 1023.f, 1.0f / 1023.f, 1.0f / 1023.f, 1.0f / 3.f);
-
-		detail::u10u10u10u2 Unpack;
+		detail::i10i10i10i2 Unpack;
 		Unpack.pack = v;
-		return vec4(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w) * ScaleFactors;
+		vec4 Result;
+		Result.x = float(Unpack.data.x) / 1023.f;
+		Result.y = float(Unpack.data.y) / 1023.f;
+		Result.z = float(Unpack.data.z) / 1023.f;
+		Result.w = float(Unpack.data.w) /   3.f;
+		return Result;
 	}
 
 	GLM_FUNC_QUALIFIER uint32 packF2x11_1x10(vec3 const & v)

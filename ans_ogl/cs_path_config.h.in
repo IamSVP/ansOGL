@@ -1,0 +1,23 @@
+#ifndef __ANS_OGL_CS_PATH_CONFIG__
+#define __ANS_OGL_CS_PATH_CONFIG__
+
+#cmakedefine BUILD_TABLE_CS_PATH "${BUILD_TABLE_CS_PATH}"
+#cmakedefine ANS_DECODE_CS_PATH "${ANS_DECODE_CS_PATH}"
+
+namespace ans_ogl {
+
+enum EANSOpenGLCS {
+  eANSOpenGLCS_BuildTable,
+  eANSOpenGLCS_ANSDecode,
+
+  kNumANSOpenGLCS
+};
+
+static const char *kANSOpenGLShaders[kNumANSOpenGLCS] = {
+  BUILD_TABLE_CS_PATH,
+  ANS_DECODE_CS_PATH,
+};
+
+} // namespace ans_ogl
+
+#endif // __ANS_OGL_CS_PATH_CONFIG__
